@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  h1 Books
+  div.actions
+    div
+      a(class="button", href="/books/new") Create New Book
+    div.text-right
+      form(action="/books?page=1", method="get")
+        input(type="text", name="search", placeholder="Search", class="search")
+        input(type="submit", value="Search", class="search-button")
+  
+  table
+    thead
+      tr
+        th Title
+        th Author
+        th Genre
+        th Year
+    tbody
+      each book in books
+        tr
+          td
+            a(href=`/books/${book.id}`)= book.title
+          td= book.author
+          td= book.genre
+          td= book.year
+      else
+        tr
+          td(colspan="4", class="text-center") No results found!
+
+  ul.pagination.text-center
+    - var i = 1
+    while i <= pageCount
+      li
+        a(href=`/books?page=${i}${search ? '&search=' + search : ''}`, class=`button ${pageNumber == i ? 'active' : ''}`)= i++
